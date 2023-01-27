@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_competitor_price,access.competitor.price,model_competitor_price,,1,1,1,1
+access_competitor_price_source,access.competitor.price.source,model_competitor_price_source,,1,1,1,1

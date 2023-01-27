@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <report
+            string="Journal Items Report PDF"
+            id="report_journal_items_pdf"
+            model="account.move.line"
+            report_type="qweb-pdf"
+            name="z_erp_journal_items_print.journal_items_pdf"
+            file="z_erp_journal_items_print.journal_items_pdf"
+            print_report_name="Journal Items Report"
+        />
+
+
+        <record id="wizard_partner_statement_view" model="ir.ui.view">
+            <field name="name">journal.items.report.xls.form</field>
+            <field name="model">journal.items.report.xls</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <footer>
+                    <button string='Download as XLS' name="journal_line_generate_xls_report"
+                        type="object" class="btn-primary"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+
+        <act_window id="report_journal_items_xls"
+        name="Download as XLS"
+        binding_model="account.move.line"
+        res_model="journal.items.report.xls"
+        view_mode="form" target="new"
+        />
+
+        <template id="journal_items_pdf">
+			<t t-call="web.basic_layout">
+				<div class="page" style="font-size:18px">
+					<h2><b><center>Journal Items Report</center></b></h2>
+                    <br/>
+                    <table class="table table-condensed" style="background:#eeeeee;border: 1px solid black;border-top: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th name="th_sl" width="5%" class="text-center">Sl.NO</th>
+                                <th name="th_date" width="15%" class="text-center">Date</th>
+                                <th name="th_ref"  width="15%" class="text-center">Ref.No</th>
+                                <th name="th_origin"  width="20%" class="text-center">Origin</th>
+                                <th name="th_partner"  width="20%" class="text-center">Partner</th>
+                                <th name="th_debit" width="10%" class="text-center">Debit</th>
+                                <th name="th_credit" width="10%" class="text-center">Credit</th>
+                                <th name="th_balance" width="10%" class="text-center">Balance</th>
+                            </tr>
+                        </thead>
+                        <t t-set="serial" t-value="0" />
+                        <t t-set="total_credit" t-value="0" />
+                        <t t-set="total_debit" t-value="0" />
+                        <t t-set="total_balance" t-value="0" />
+                        <tbody class="campus_tbody">
+                            <t t-foreach="docs" t-as="o">
+                                <t t-set="serial" t-value="serial+1" />
+                                <t t-set="total_credit" t-value="total_credit + o.credit" />
+                                <t t-set="total_debit" t-value="total_debit + o.debit" />
+                                <t t-set="total_balance" t-value="total_balance + o.balance" />
+                                <tr>
+                                    <td name="td_sl"><span class="text-center" t-esc="serial" /></td>
+                                    <td name="td_date"><span class="text-center" t-field="o.date"/></td>
+                                    <td name="td_ref"><span class="text-center" t-field="o.ref"/></td>
+                                    <td name="td_origin"><span class="text-center"  t-field="o.move_id"/></td>
+                                    <td name="td_partner"><span class="text-right" t-field="o.partner_id"/></td>
+                                    <td name="td_debit"><span class="text-right" t-field="o.debit"/></td>
+                                    <td name="td_credit"><span class="text-right" t-field="o.credit"/></td>
+                                    <td name="td_balance"><span class="text-right" t-field="o.balance"/></td>
+                                </tr>
+                            </t>
+                            <tr>
+                                <td></td>
+                                <td ></td>
+                                <td ></td>
+                                <td ></td>
+                                <td style="border-center: 1px solid black;">
+                                    <b>Total</b>
+                                </td>
+                                <td class="text-center"><span t-esc="total_debit" t-esc-options='{"widget": "monetary", "display_currency": "currency"}' /></td>
+                                <td class="text-center"><span t-esc="total_credit" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                <td class="text-center"><span t-esc="total_balance" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <template id="journal_items_pdf_template">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="journal_items_print.journal_items_pdf" />
+				</t>
+			</t>
+		</template>
+
+
+
+    </data>
+</odoo>

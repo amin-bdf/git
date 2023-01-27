@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record model="ir.ui.view" id="product_form_view_competitor_button">
+        <field name="name">product.product.competitor</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <data>
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" name="competitor_price_button" type="object" icon="fa-trophy" width="180px"
+                            attrs="{'invisible': [('competitor_price_count', '=', 0)]}">
+                            <field name="competitor_price_count" widget="statinfo"/>
+                    </button>
+                </div>
+            </data>
+        </field>
+    </record>
+
+
+</odoo>

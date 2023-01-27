@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="employee_visa_expiry_notification_template" model="mail.template">
+            <field name="name">Employee: Visa Expiry  Notification</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="subject">${ctx.get('subject')}</field>
+			<field name="email_to">${ctx.get('email_to')}</field>
+			<field name="email_cc">${ctx.get('email_cc')}</field>
+            <field name="model_id" ref="hr.model_hr_employee" />
+            <field name="body_html"><![CDATA[
+			<p>Dear ${ctx.get('email_to_name')},<br/></p><br/>
+			<p>
+                We are pleased to inform you that your Visa will be expired soon..! <br/>
+			</p><br/>
+			<p>Make Sure to update your Visa Information as soon as possible..!</p>
+                <br/>
+            <p>Please find the below mentioned Visa Details:</p>
+
+			<p>
+			<strong>Employee Name :</strong> ${object.name}<br/>
+			<strong>Visa No:</strong> ${object.visa_no}<br/>
+			<strong>Visa Expiry Date:</strong> ${object.visa_expire}<br/>
+
+			<div style="text-align: left; margin: 16px 0px 16px 0px;">
+                <a href="${ctx['url']}"
+                style="padding: 5px 20px; color: #FFFFFF; text-decoration: none; background-color: #875A7B;
+                border: 5px solid #875A7B; border-radius: 5px">
+                View Employee Profile</a>
+            </div>
+
+            -------------------------------------------This is a system generated email----------------------------------------------
+						]]></field>
+
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_z_erp_employee_age_inherit_hr_form" model="ir.ui.view">
+        <field name="name">z.erp.employee.age.inherit.hr.view.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='birthday']" position="after">
+                <label for="age" attrs="{'invisible': [('birthday','=', False)]}"/>
+                <div name="age" attrs="{'invisible': [('birthday','=', False)]}" class="o_row">
+                    <field name="age"/>
+                    (<field name="age_details"/>)
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
